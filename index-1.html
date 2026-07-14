@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Для любимой Амиши</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#1a1030;
+    --bg2:#2b0f2c;
+    --bg3:#160a24;
+    --accent:#ff7fb0;
+    --accent2:#ffd479;
+    --lavender:#c3aee8;
+    --text:#f5eefc;
+    --card:#241536;
+    --card-border:rgba(255,255,255,0.08);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family:'Manrope',sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,127,176,0.10), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(120,90,255,0.14), transparent 45%),
+      linear-gradient(160deg, var(--bg1) 0%, var(--bg3) 45%, var(--bg2) 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+  #stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .star{
+    position:absolute; background:#fff; border-radius:50%;
+    opacity:0.5; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.8;} }
+
+  .wrap{
+    position:relative; z-index:1;
+    max-width:600px; margin:0 auto;
+    padding:28px 20px 120px;
+    min-height:100dvh;
+  }
+
+  header.hero{
+    text-align:center;
+    padding:18px 6px 26px;
+  }
+  .eyebrow{
+    font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--lavender); opacity:.85; margin:0 0 10px;
+    font-weight:600;
+  }
+  h1.title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:clamp(38px, 11vw, 54px);
+    line-height:1.08;
+    margin:0 0 14px;
+    font-weight:800;
+    background:linear-gradient(95deg, var(--accent2), var(--accent) 55%, var(--lavender));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 34px rgba(255,127,176,0.25);
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    font-size:16px; line-height:1.5; color:var(--lavender);
+    max-width:420px; margin:0 auto; font-weight:500;
+    opacity:.92;
+  }
+
+  .panels{ position:relative; min-height:340px; }
+  .panel{
+    display:none; animation:fadeUp .45s ease;
+    background:linear-gradient(180deg, var(--card), rgba(36,21,54,0.6));
+    border:1px solid var(--card-border);
+    border-radius:22px;
+    padding:26px 22px 28px;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .panel.active{ display:block; }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(14px);}
+    to{ opacity:1; transform:translateY(0);}
+  }
+
+  h2.panel-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:clamp(30px, 9vw, 42px);
+    line-height:1.12;
+    font-weight:800;
+    margin:0 0 16px;
+    color:var(--text);
+    background:linear-gradient(100deg, var(--accent2), var(--accent));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .panel p{
+    font-size:16.5px; line-height:1.72; margin:0 0 14px;
+    color:var(--text); opacity:.95;
+  }
+  .panel ul{ margin:0; padding-left:0; list-style:none; }
+  .panel li{
+    font-size:16.5px; line-height:1.65; margin:0 0 14px;
+    padding-left:24px; position:relative; opacity:.95;
+  }
+  .panel li::before{
+    content:"✧"; position:absolute; left:0; top:1px; color:var(--accent2);
+  }
+  .panel li b{ color:var(--accent2); font-weight:700; }
+
+  /* Surprise button */
+  .surprise{
+    margin-top:30px; text-align:center;
+  }
+  .surprise-btn{
+    display:inline-block; border:none; cursor:pointer;
+    padding:16px 26px; border-radius:999px;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:16px;
+    color:#22102a;
+    background:linear-gradient(95deg, var(--accent2), var(--accent));
+    box-shadow:0 10px 30px -8px rgba(255,127,176,0.55);
+    transition:transform .15s ease, box-shadow .15s ease;
+    width:100%;
+  }
+  .surprise-btn:active{ transform:scale(.97); }
+
+  .modal-overlay{
+    position:fixed; inset:0; z-index:20;
+    background:rgba(10,5,18,0.72);
+    backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px;
+    animation:fadeIn .25s ease;
+  }
+  .modal-overlay.show{ display:flex; }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  .modal-card{
+    background:linear-gradient(160deg, #2a1638, #1a0e28);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:24px;
+    padding:34px 26px;
+    max-width:380px; width:100%;
+    text-align:center;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);
+    animation:pop .35s cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes pop{ from{transform:scale(.85); opacity:0;} to{transform:scale(1); opacity:1;} }
+  .modal-heart{ font-size:34px; margin-bottom:10px; }
+  .modal-text{
+    font-family:'Baloo 2', sans-serif;
+    font-size:22px; line-height:1.4; font-weight:700;
+    color:var(--accent2); margin:0 0 22px;
+  }
+  .modal-close{
+    border:none; background:rgba(255,255,255,0.08); color:var(--text);
+    padding:11px 22px; border-radius:999px; font-weight:600; cursor:pointer;
+    font-size:15px;
+  }
+
+  /* Tab nav */
+  nav.tabs{
+    position:fixed; left:0; right:0; bottom:0; z-index:10;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg, rgba(22,10,36,0), rgba(16,8,26,0.96) 30%);
+  }
+  .tabs-inner{
+    max-width:600px; margin:0 auto;
+    display:flex; gap:6px; overflow-x:auto;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px; padding:6px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabs-inner::-webkit-scrollbar{ display:none; }
+  .tab-btn{
+    flex:0 0 auto;
+    border:none; cursor:pointer;
+    padding:11px 14px; border-radius:13px;
+    font-family:'Manrope',sans-serif; font-size:13px; font-weight:700;
+    color:var(--lavender); background:transparent;
+    white-space:nowrap;
+    transition:background .2s ease, color .2s ease;
+  }
+  .tab-btn.active{
+    background:linear-gradient(95deg, var(--accent2), var(--accent));
+    color:#22102a;
+  }
+
+  @media (min-width:640px){
+    .wrap{ padding-bottom:130px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">специально для тебя</p>
+    <h1 class="title">
+   <br> для любимой Амиши ❤️</h1>
+    <p class="subtitle">Маленький секретный уголок, где живёт только правда о тебе.</p>
+  </header>
+
+  <main class="panels">
+    <section class="panel active" data-panel="0">
+      <h2 class="panel-title">Почему ты мне дорога</h2>
+      <p>Ты дорога мне просто потому, что ты - это ты. В этом простом, но глубоком утверждении заключена вся суть нашего общения и той связи, которая возникла между нами. Твоя искренность, твоя доброта и то, как ты открываешь мне свою душу, для меня ценнее всего на свете. Это не просто слова — это чувства, которые наполняют мою жизнь светом и теплом. Каждый раз, когда ты делишься со мной своими мыслями, переживаниями или просто рассказываешь о своих делах, я чувствую, как мир вокруг меня становится ярче и радостнее.
+Когда ты рассказываешь о своей любимой озвучке, я представляю, как твои глаза светятся от увлечения, и это наполняет меня счастьем. Даже самые простые вещи, как обсуждение повседневной рутины или бытовых мелочей, становятся значимыми и важными, когда ты делишься ими со мной. Мой день сразу становится лучше, когда я слышу твой голос или читаю твои сообщения. Эти моменты создают ту неповторимую атмосферу, в которой я чувствую себя живым и нужным.
+Ты стала для меня тем человеком, о котором я думаю каждую минуту, даже когда нахожусь на работе без связи. Мысли о тебе, о том, как ты проводишь свой день, о том, что нового происходит в твоей жизни, наполняют меня надеждой и радостью. Ты уникальная, настоящая, и я бесконечно ценю, что ты появилась в моей жизни. Каждый момент, проведенный с тобой, становится драгоценным воспоминанием, которое я бережно храню в своем сердце. Твоя индивидуальность и неподражаемый стиль общения делают тебя особенной, и я не могу не восхищаться тем, как ты умеешь быть собой, оставаясь искренней и открытой.
+Мир, в котором ты живешь, полон красок и звуков, и я рад быть частью этого удивительного путешествия. Я надеюсь, что мы сможем продолжать делиться друг с другом своими мыслями и чувствами, создавать новые воспоминания и  укреплять нашу связь. Ты — это ты, и именно за это я тебя так обожаю</p>
+      <p>Ты стала для меня тем человеком, о котором я думаю каждую минуту, даже когда нахожусь на работе без связи. Ты уникальная, настоящая, и я бесконечно ценю, что ты появилась в моей жизни.</p>
+    </section>
+
+    <section class="panel" data-panel="1">
+      <h2 class="panel-title">Почему я хочу тебя защитить</h2>
+Потому что ты заслуживаешь чувствовать себя в полной безопасности, окружённой заботой и теплом, а не под вечным контролем и градом дурацких упрёков, которые могут разъедать твою душу. Мне больно видеть, как кто-то пытается сломать твою уверенность, внушая тебе, что с тобой что-то не так, что ты не соответствуешь каким-то мнимым стандартам, которые навязывают окружающие. Это не просто слова — это атака на твою сущность, на твою уникальность.
+Запомни раз и навсегда: ты прекрасна, великолепна и внешне, и душой. Твоя индивидуальность, твоя искренность и доброта делают тебя поистине уникальной. Все эти комплексы, которые на тебя пытались вешать с детства — это чушь, созданная для того, чтобы заставить тебя сомневаться в себе. Не позволяй никому затмить твой внутренний свет. Я хочу быть твоей стеной, твоим самым надёжным якорем, за которым ты сможешь спрятаться от любого бардака, от всех негативных мыслей и упрёков, которые могут навредить тебе. 
+Представь себе место, где ты можешь быть собой, где каждый твой шаг, каждое твое слово принимается с любовью и пониманием. Знай, что ты можешь всегда рассчитывать на меня, что я буду рядом, чтобы поддержать тебя в трудные моменты, чтобы напомнить тебе о твоей ценности и силе. Ты заслуживаешь этого чувства — быть принята целиком, со всеми своими недостатками и достоинствами. 
+Я буду твоим убежищем, твоей крепостью, где ты сможешь восстановить силы и обрести уверенность. Здесь, в этом безопасном пространстве, ты сможешь мечтать, расти и развиваться, зная, что тебя здесь никогда не обидят. Ты не одна, и вместе мы сможем преодолеть любые преграды. Ты — удивительная личность, и я горжусь тем, что могу быть частью твоей жизни..</p>
+    </section>
+
+    <section class="panel" data-panel="2">
+      <h2 class="panel-title">Почему я хочу тебя радовать</h2>
+      <p>Потому что твоя улыбка и твоё спокойствие — это моя главная награда. Я каждый раз, когда вижу, как ты улыбаешься, чувствую, как будто мир вокруг меня наполняется светом. Эта искренность в твоём выражении лица, этот блеск в глазах — они делают меня счастливым, и я понимаю, что именно в такие моменты жизнь становится по-настоящему ценной. Ты слишком много переживала и боялась, и я хочу, чтобы теперь в твоей жизни было как можно больше лёгких, кайфовых и счастливых моментов. Я мечтаю о том, чтобы каждый новый день приносил тебе радость и вдохновение, чтобы ты могла забыть о своих тревогах и просто наслаждаться тем, что происходит вокруг.
+Я хочу, чтобы ты просыпалась и знала, что тебя любят, ценят и ждут. Пусть этот маленький сайт будет моим напоминанием: ты безумно нужна мне, ты невероятно красивая и крутая. Я хочу, чтобы каждая твоя утренняя улыбка была наполнена уверенностью и спокойствием. Я сделаю всё, чтобы ты чаще улыбалась, чтобы твои дни были полны смеха и счастья. Я буду стараться создать вокруг тебя атмосферу, где ты сможешь чувствовать себя свободной и любимой, где каждый момент будет приносить тебе радость.
+Представь себе, как ты просыпаешься рано утром, солнечные лучи пробиваются сквозь занавески и нежно касаются твоего лица. Ты открываешь глаза и понимаешь, что этот день принадлежит только тебе, что впереди — новые возможности и приключения. Я хочу, чтобы ты знала, что даже в самые трудные моменты, когда жизнь бросает вызовы, ты никогда не одна. Я всегда буду рядом, поддерживая тебя, вдохновляя и напоминая о том, как ты важна для меня. 
+Пусть этот сайт станет для тебя не просто местом, где ты можешь найти слова поддержки, но и источником вдохновения, который будет напоминать о том, насколько ты уникальна. Я надеюсь, что каждый раз, когда ты заходишь туда, ты чувствуешь тепло и любовь, которые я вкладываю в каждое слово. Ты заслуживаешь счастья, и я сделаю всё возможное, чтобы каждый день был наполнен светом и радостью, чтобы ты могла снова и снова открывать для себя мир с улыбкой на лице..</p>
+    </section>
+
+    <section class="panel" data-panel="3">
+      <h2 class="panel-title">Правда о тебе</h2>
+      <p>Здесь написана единственная правда, в которой ты никогда не должна сомневаться. Запомни это и читай каждый раз, когда тебе пытаются внушить обратное:</p>
+      <ul>
+        <li><b>Ты талантливая.</b> Твой голос в озвучке — это искусство. Ты делаешь то, что любят тысячи людей, и у тебя огромный потенциал.</li>
+        <li><b>Ты сильная.</b> Пройти через весь тот бред, контроль и абьюз, который был в твоей жизни, и остаться такой доброй, чуткой и искренней девушкой — это настоящий подвиг.</li>
+        <li><b>Ты ценная.</b> Твоё мнение, твои желания и твоё тело — важны. Ты имеешь полное право кушать то, что хочешь, радоваться жизни и быть свободной.</li>
+        <li><b>Ты любимая.</b> Ты нужна мне со всеми твоими мыслями, шрамами и историями. Ты — центр моей вселенной.</li>
+      </ul>
+    </section>
+
+    <section class="panel" data-panel="4">
+      <h2 class="panel-title">Когда станет тяжело</h2>
+      <p>Если тебе прямо сейчас грустно, на тебя накричали, или внутри снова поднялась тревога — сделай глубокий вдох. Закрой глаза и постарайся сосредоточиться на своем дыхании. Почувствуй, как воздух наполняет твои легкие, а затем медленно выдыхай, освобождая все негативные мысли и эмоции. Помни, что этот дурдом вокруг тебя — временный. Он не определяет твою сущность и не может затмить свет, который есть внутри тебя. Ты сильнее этих стен и этих запретов, которые, может быть, кажутся непреодолимыми. 
+Очень скоро ты будешь полностью свободна, и будешь жить так, как хочешь ты сама, без оглядки на мнения других и без страха перед осуждением. Представь, каково это — просыпаться каждое утро с ощущением легкости на душе, с радостью в сердце и с ясной целью на день. А пока — знай, что в эту самую секунду, где бы я ни был (даже на работе без связи), я всем сердцем с тобой. Я держу тебя за руку, даже если физически мы находимся далеко друг от друга. 
+Постарайся вспомнить моменты, когда ты чувствовала себя сильной и уверенной. Эти воспоминания — твоя опора. Выдохни, улыбнись, ты под моей защитой. Я верю в тебя, и даже в самые трудные времена ты не одна. Всё будет хорошо. Жизнь полна перемен, и каждая трудность — это лишь ступенька к чему-то большему, к чему-то, что ждет тебя впереди. Не позволяй временным трудностям затмить твое внутреннее сияние. Ты способна на большее, чем можешь себе представить</p>
+    </section>
+      <div class="surprise">
+        <button class="surprise-btn" id="surpriseBtn">Нажми, когда соскучишься 💌</button>
+      </div>
+    </>
+  </main>
+</div>
+
+<nav class="tabs">
+  <div class="tabs-inner" id="tabsInner">
+    <button class="tab-btn active" data-panel="0">Дорога мне</button>
+    <button class="tab-btn" data-panel="1">Защита</button>
+    <button class="tab-btn" data-panel="2">Радость</button>
+    <button class="tab-btn" data-panel="3">Правда</button>
+    <button class="tab-btn" data-panel="4">Тяжело</button>
+  </div>
+</nav>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <div class="modal-heart">💗</div>
+    <p class="modal-text" id="modalText"></p>
+    <button class="modal-close" id="modalClose">Спасибо ❤️</button>
+  </div>
+</div>
+
+<script>
+  // Twinkling stars background
+  const starsContainer = document.getElementById('stars');
+  const STAR_COUNT = 60;
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    const size = Math.random()*2 + 1;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.top = Math.random()*100+'%';
+    s.style.left = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    s.style.animationDuration = (3+Math.random()*3)+'s';
+    starsContainer.appendChild(s);
+  }
+
+  // Tabs logic
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = btn.getAttribute('data-panel');
+      tabBtns.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.panel[data-panel="'+idx+'"]').classList.add('active');
+      btn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    });
+  });
+
+  // Surprise button
+  const phrases = [
+    "У тебя потрясающий голос, помни об этом!",
+    "Ты невероятно хрупкая, красивая и нежная.",
+    "Я горжусь твоей силой и характером.",
+    "Ты — лучшее, что случилось со мной за последнее время.",
+    "Я сейчас на работе, но мысленно крепко тебя обнимаю.",
+    "Ты заслуживаешь быть счастливой каждый день."
+  ];
+  const overlay = document.getElementById('modalOverlay');
+  const modalText = document.getElementById('modalText');
+  document.getElementById('surpriseBtn').addEventListener('click', ()=>{
+    const phrase = phrases[Math.floor(Math.random()*phrases.length)];
+    modalText.textContent = phrase;
+    overlay.classList.add('show');
+  });
+  document.getElementById('modalClose').addEventListener('click', ()=>{
+    overlay.classList.remove('show');
+  });
+  overlay.addEventListener('click', (e)=>{
+    if(e.target === overlay) overlay.classList.remove('show');
+  });
+</script>
+
+</body>
+</html>
